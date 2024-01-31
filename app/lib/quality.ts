@@ -18,11 +18,12 @@ function formatBytes(bytes: number) {
     // return GB if less than a TB
     else return (bytes / gigaBytes).toFixed(decimal) + " GB";
 } const tg = async (db: PrismaClient, ctx: any) => {
-    // const todayRequestCount = db;
-    if (ctx.message.text.match('^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$')) {
+    if(ctx.message.text.split('?')[0].split('.')[1].split('/')[1] == 'playlist')
+        ctx.reply(ctx.t("not_ability_to_download_playlist"),{reply_parameters: { message_id: ctx.msg.message_id }})
+    else if (ctx.message.text.match('^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$')) {
+        const data = JSON.parse(execSync(`yt-dlp --print "%()j" --proxy ${process.env.PROXY} ${ctx.message.text}`).toString())
         await bot.api.sendChatAction(ctx.chat.id , 'upload_photo');
         let qualityKeyboard = new InlineKeyboard()
-        const data = JSON.parse(execSync(`yt-dlp --print "%()j" --proxy ${process.env.PROXY} ${ctx.message.text}`).toString())
         const qualityTemp: string[] = ['Default', "Premium"]
         const formats = data.formats.filter((format: { ext: string, format_note: string, format_id: string, source_preference: number }) => {
             const isTarget: boolean = (format.ext == 'mp4' || format.ext == 'm4a') && qualityTemp.includes(format.format_note) == false && format.source_preference == -1 && format.format_note != undefined;

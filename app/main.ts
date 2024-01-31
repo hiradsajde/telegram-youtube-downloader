@@ -103,7 +103,7 @@ async function main() {
         created_at: new Date()
       }
     })
-    ctx.reply(ctx.t("WELCOME"))
+    ctx.reply(ctx.t("WELCOME"),{reply_parameters: { message_id: ctx.msg.message_id }})
   })
   bot.on("message:text", (ctx: any) => quality(db, ctx));
 }
