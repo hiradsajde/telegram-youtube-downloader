@@ -30,9 +30,10 @@ function formatBytes(bytes: number) {
             return isTarget;
         })
         let number_of_sounds = 0;
+        const audio_size = formats.find((format : {ext : string , format_note : string}) => format.ext == 'm4a' && format.format_note == 'medium').filesize;
         for (const format of formats.reverse()) {
             if (format.ext == 'mp4') {
-                qualityKeyboard.text(`🎬 ${format.resolution} (${format.format_note}) - ${formatBytes(format.filesize)}`, `q___${data.id}___${format.format_id}___${format.format_note}___${format.ext}___${data.duration}`)
+                qualityKeyboard.text(`🎬 ${format.resolution} (${format.format_note}) - ${formatBytes(format.filesize + audio_size)}`, `q___${data.id}___${format.format_id}___${format.format_note}___${format.ext}___${data.duration}`)
                 qualityKeyboard.row()
             }
             else {
