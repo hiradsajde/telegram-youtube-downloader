@@ -12,5 +12,13 @@ datasource db {
 
 model User {
     id    Int     @id @default(autoincrement())
-    user_id String  @unique
+    user_id BigInt @unique
+    last_msg  DateTime
+    created_at  DateTime @default(now())
+}
+model Request { 
+  id  Int @id @default(autoincrement())
+  user_id BigInt 
+  video_id String
+  created_at DateTime @default(now())
 }
