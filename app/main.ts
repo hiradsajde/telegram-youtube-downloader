@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { useFluent } from "@grammyjs/fluent";
 import { bot } from './lib/bot';
+import { limit } from "@grammyjs/ratelimiter";
 import { Fluent } from "@moebius/fluent";
 import { webhookCallback } from "grammy";
 import ytdlp from "./../queue/ytdlp";
@@ -69,6 +70,7 @@ async function main() {
       fluent,
     }),
   );
+  bot.use(limit());
   bot.on("callback_query:data", async (ctx: any) => {
     const message_id = ctx.update.callback_query.message.message_id
     const bot_id = ctx.update.callback_query.message.from.id
