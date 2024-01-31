@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { InlineKeyboard } from "grammy";
+import { InlineKeyboard, InputFile } from "grammy";
 import { exec, execSync } from "child_process";
 import {bot} from './bot'
 function formatBytes(bytes: number) {
@@ -30,7 +30,7 @@ function formatBytes(bytes: number) {
             return isTarget;
         })
         let number_of_sounds = 0;
-        for (const format of formats) {
+        for (const format of formats.reverse()) {
             if (format.ext == 'mp4') {
                 qualityKeyboard.text(`🎬 ${format.resolution} (${format.format_note}) - ${formatBytes(format.filesize)}`, `q___${data.id}___${format.format_id}___${format.format_note}___${format.ext}___${data.duration}`)
                 qualityKeyboard.row()
@@ -54,7 +54,7 @@ function formatBytes(bytes: number) {
                 }
             }
         }
-        ctx.replyWithPhoto(data.thumbnails.filter((thumbnail : {url : string}) => thumbnail.url.includes('jpg')).pop().url , {
+        ctx.replyWithPhoto(new InputFile(new URL(data.thumbnails.filter((thumbnail : {url : string , resolution : string}) => thumbnail.url.includes('jpg') && thumbnail.resolution != undefined).pop().url)) , {
             caption: `🎈${data.title}\n\n${ctx.t("SELECT_QUALITY")}`,
             reply_markup: qualityKeyboard,
             reply_parameters: { message_id: ctx.msg.message_id }
