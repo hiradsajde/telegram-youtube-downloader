@@ -21,7 +21,6 @@ function formatBytes(bytes: number) {
     if(ctx.message.text?.split('?')[0]?.split('.')[1]?.split('/')[1] == 'playlist')
         ctx.reply(ctx.t("not_ability_to_download_playlist"),{reply_parameters: { message_id: ctx.msg.message_id }})
     else if (ctx.message.text.match('^(https?\:\/\/)?((www\.)?(music\.)?youtube\.com|youtu\.be)\/.+$')) {
-        ctx.reply(JSON.stringify(ctx.message.text))
         const data = JSON.parse(execSync(`yt-dlp --print "%()j" --proxy ${process.env.PROXY} ${ctx.message.text}`).toString())
         await bot.api.sendChatAction(ctx.chat.id , 'upload_photo');
         let qualityKeyboard = new InlineKeyboard()
