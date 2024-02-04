@@ -51,6 +51,7 @@ const worker = new Worker('ytdlp', async job => {
     if(ext == 'mp4') {
       file_data.type = 'video'
       file_data.thumbnail = new InputFile(job.data.thumbnail);
+      file_data.supports_streaming = true;
     } else { 
       file_data.type = 'audio'
     }
