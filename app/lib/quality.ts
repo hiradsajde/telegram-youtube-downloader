@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client"
 import { InlineKeyboard, InputFile } from "grammy";
 import { exec, execSync } from "child_process";
+import url from 'url'
 import {bot} from './bot'
+
 function formatBytes(bytes: number) {
     var marker = 1024; // Change to 1000 if required
     var decimal = 2; // Change as required
@@ -21,7 +23,7 @@ function formatBytes(bytes: number) {
     if(ctx.message.text?.split('?')[0]?.split('.')[1]?.split('/')[1] == 'playlist')
         ctx.reply(ctx.t("not_ability_to_download_playlist"),{reply_parameters: { message_id: ctx.msg.message_id }})
     else if (ctx.message.text.match('^(https?\:\/\/)?((www\.)?(music\.)?youtube\.com|youtu\.be)\/.+$')) {
-        const data = JSON.parse(execSync(`yt-dlp --print "%()j" --proxy ${process.env.PROXY} ${ctx.message.text}`).toString())
+        const data = JSON.parse(execSync(`yt-dlp --print "%()j" --proxy ${process.env.PROXY} ${url.parse(ctx.message.text,true).query.v ? url.parse(ctx.message.text,true).query.v : ctx.message.text }`).toString())
         await bot.api.sendChatAction(ctx.chat.id , 'upload_photo');
         let qualityKeyboard = new InlineKeyboard()
         const qualityTemp: string[] = ['Default', "Premium"]

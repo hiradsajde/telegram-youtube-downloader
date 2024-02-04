@@ -75,7 +75,7 @@ async function main() {
     const message_id = ctx.update.callback_query.message.message_id
     const bot_id = ctx.update.callback_query.message.from.id
     const callback_query = ctx.update.callback_query.data
-    const [action, video_id, format_id, quality, ext, duration] = callback_query;
+    const [action, video_id, format_id, quality, ext, duration] = callback_query.split("___");
     const user_id = ctx.update.callback_query.from.id;
     const caption = ctx.update.callback_query.message.caption;
     const thumbnail = (await bot.api.getFile(ctx.update.callback_query.message.photo.pop().file_id)).file_path;
