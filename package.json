@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./app/main.ts",
-    "yt-dlp": "ts-node ./assets/download-test.ts https://youtu.be/PisA-OPisUY?si=wYdTX6KwEULlxEEf 22",
+    "start": "ts-node ./app/main.ts",
+    "yt-dlp": "ts-node ./queue/_worker.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
