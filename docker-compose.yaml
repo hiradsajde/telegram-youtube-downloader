@@ -1,13 +1,21 @@
-version: '3.8'
+version: "3.8"
+
 services:
-   #if you want to connect domain directly we suggest nginx-proxy-manager
-   nginx:
-     image: 'jc21/nginx-proxy-manager:latest'
-     restart: unless-stopped
-     ports:
-       - '80:80'
-       - '81:81'
-       - '443:443'
-     volumes:
-       - ./data:/data
-       - ./letsencrypt:/etc/letsencrypt
+  #if you want to connect domain directly we suggest nginx-proxy-manager
+  nginx:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
