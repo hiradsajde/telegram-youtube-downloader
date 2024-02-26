@@ -1,9 +1,10 @@
+import 'dotenv/config'
 import { PrismaClient } from "@prisma/client"
 import { InlineKeyboard, InputFile } from "grammy";
-import { exec, execSync } from "child_process";
-import url from 'url'
+import {execSync } from "child_process";
 import {bot} from './bot'
-
+import url from 'url'
+ 
 function formatBytes(bytes: number) {
     var marker = 1024; // Change to 1000 if required
     var decimal = 2; // Change as required
